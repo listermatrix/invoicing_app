@@ -132,7 +132,7 @@ namespace App\Models{
 	class Product extends \Eloquent {}
 }
 
-namespace App\Models{use Eloquent;
+namespace App\Models{
 /**
  * @property int $id
  * @property string $first_name

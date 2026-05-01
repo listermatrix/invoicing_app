@@ -23,14 +23,14 @@ class InvoiceController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $invoices = $request->user()
-            ->invoices()
-            ->with('customer')
-            ->latest()
-            ->paginate(15);
+        $invoices = $request->user()->isAdmin()
+            ? Invoice::with('customer')->latest()->paginate(15)
+            : $request->user()->invoices()->with('customer')->latest()->paginate(15);
 
-        return  $this->respondWithResource(new InvoiceCollection($invoices),
-            'Invoices retrieved successfully');
+        return $this->respondWithResource(
+            new InvoiceCollection($invoices),
+            'Invoices retrieved successfully'
+        );
     }
 
     /**

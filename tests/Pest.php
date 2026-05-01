@@ -48,3 +48,20 @@ function something()
 {
     // ..
 }
+
+
+use App\Models\User;
+
+function actingAsUser(?User $user = null): User
+{
+    $user ??= User::factory()->create(['role' => 'staff']);
+    test()->actingAs($user, 'sanctum');
+    return $user;
+}
+
+function actingAsAdmin(?User $user = null): User
+{
+    $user ??= User::factory()->create(['role' => 'admin']);
+    test()->actingAs($user, 'sanctum');
+    return $user;
+}
