@@ -32,7 +32,7 @@ class CustomerController extends Controller
     public function store(StoreCustomerRequest $request): JsonResponse
     {
         $customer = Customer::create($request->validated());
-        return $this->respondWithResource(new CustomerResource($customer),
+        return $this->respondWithData(new CustomerResource($customer),
             'Customers retrieved successfully');
 
     }

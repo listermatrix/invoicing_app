@@ -27,12 +27,8 @@ class AuthController extends Controller
             throw ValidationException::withMessages(['The provided credentials are incorrect.']);
         }
 
-        $token = $user->createToken('api-token')->plainTextToken;
-
-        return $this->respondWithResource([
-            'user' => new UserResource($user),
-            'token' => $token,
-        ], 'Login successful.');
+        $user->token = $user->createToken('api-token')->plainTextToken;
+        return $this->respondWithData(new UserResource($user), 'Login successful.');
     }
 
     public function logout(Request $request): JsonResponse
@@ -44,9 +40,6 @@ class AuthController extends Controller
 
     public function me(Request $request): JsonResponse
     {
-        return $this->respondWithResource(
-            new UserResource($request->user()),
-            'User profile retrieved successfully.'
-        );
+        return $this->respondWithData(new UserResource($request->user()), 'User profile retrieved successfully.');
     }
 }
