@@ -10,6 +10,7 @@ use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Trait\ApiResponseTrait;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -56,8 +57,13 @@ class ProductController extends Controller
         );
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function destroy(Request $request, Product $product): JsonResponse
     {
+
+        $this->authorize('delete', $product);
         $product->delete();
 
         return response()->json(['message' => 'Product deleted.']);

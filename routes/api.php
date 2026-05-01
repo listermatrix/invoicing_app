@@ -21,8 +21,5 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('customers', CustomerController::class);
         Route::apiResource('products', ProductController::class);
         Route::apiResource('invoices', InvoiceController::class);
-
-        Route::patch('invoices/{invoice}/status', [InvoiceController::class, 'updateStatus']);
-
     });
 });

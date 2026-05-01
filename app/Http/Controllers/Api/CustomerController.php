@@ -9,6 +9,7 @@ use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use App\Trait\ApiResponseTrait;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -49,8 +50,12 @@ class CustomerController extends Controller
             'Customers updated successfully');
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function destroy(Request $request, Customer $customer): JsonResponse
     {
+        $this->authorize('delete', $customer);
         $customer->delete();
 
         return response()->json(['message' => 'Customer deleted.']);

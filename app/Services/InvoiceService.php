@@ -55,6 +55,7 @@ class InvoiceService
             ]);
 
             if (isset($data['items'])) {
+
                 if ($previousStatus === 'sent') {
                     $this->restoreStock($invoice);
                 }
@@ -62,7 +63,8 @@ class InvoiceService
                 $invoice->items()->delete();
                 $this->syncItems($invoice, $data['items'], deductStock: $newStatus === 'sent');
                 $invoice->recalculateTotal();
-            } else {
+            }
+            else {
                 $this->handleStatusTransition($invoice, $previousStatus, $newStatus);
             }
 
