@@ -5,13 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Invoice\StoreInvoiceRequest;
 use App\Http\Requests\Invoice\UpdateInvoiceRequest;
+use App\Http\Resources\InvoiceCollection;
+use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
 use App\Services\InvoiceService;
+use App\Trait\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Throwable;
 
 class InvoiceController extends Controller
 {
+    use ApiResponseTrait;
     public function __construct(private readonly InvoiceService $invoiceService)
     {
     }
@@ -21,46 +26,47 @@ class InvoiceController extends Controller
         $invoices = $request->user()
             ->invoices()
             ->with('customer')
-            ->when($request->status, fn ($q, $s) => $q->where('status', $s))
             ->latest()
             ->paginate(15);
 
-        return response()->json($invoices);
+        return  $this->respondWithResource(new InvoiceCollection($invoices),
+            'Invoices retrieved successfully');
     }
 
+    /**
+     * @throws Throwable
+     */
     public function store(StoreInvoiceRequest $request): JsonResponse
     {
-        $this->authorize('create', Invoice::class);
-
         $invoice = $this->invoiceService->create($request->validated(), $request->user()->id);
 
-        return response()->json($invoice, 201);
+        return  $this->respondWithData(new InvoiceResource($invoice),
+            'Invoices created successfully');
     }
 
-    public function show(Request $request, Invoice $invoice): JsonResponse
+    public function show(Invoice $invoice): JsonResponse
     {
-        $this->authorize('view', $invoice);
-
-        return response()->json(
-            $invoice->load('customer', 'items.product')
-        );
+        return  $this->respondWithData(new InvoiceResource($invoice),
+            'Invoices created successfully');
     }
 
+    /**
+     * @throws Throwable
+     */
     public function update(UpdateInvoiceRequest $request, Invoice $invoice): JsonResponse
     {
-        $this->authorize('update', $invoice);
 
-        $updated = $this->invoiceService->update($invoice, $request->validated());
-
-        return response()->json($updated);
+        $updatedInvoice = $this->invoiceService->update($invoice, $request->validated());
+        return  $this->respondWithData(new InvoiceResource($updatedInvoice),
+            'Invoice updated successfully');
     }
 
-    public function destroy(Request $request, Invoice $invoice): JsonResponse
+    /**
+     * @throws Throwable
+     */
+    public function destroy(Invoice $invoice): JsonResponse
     {
-        $this->authorize('delete', $invoice);
-
         $this->invoiceService->delete($invoice);
-
-        return response()->json(['message' => 'Invoice deleted.']);
+        return response()->json(['message' => 'Invoice deleted successfully.']);
     }
 }

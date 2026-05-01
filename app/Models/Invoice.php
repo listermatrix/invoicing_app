@@ -7,6 +7,39 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int $customer_id
+ * @property string $invoice_number
+ * @property \Illuminate\Support\Carbon $issue_date
+ * @property \Illuminate\Support\Carbon $due_date
+ * @property string $status
+ * @property string|null $notes
+ * @property numeric $total_amount
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Customer $customer
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceItem> $items
+ * @property-read int|null $items_count
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\InvoiceFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereCustomerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereDueDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereInvoiceNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereIssueDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereTotalAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Invoice extends Model
 {
     use HasFactory;

@@ -12,18 +12,27 @@ class UpdateInvoiceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'customer_id' => 'nullable|exists:customers,id',
+            'issue_date' => 'nullable|date',
+            'due_date' => 'nullable|date|after_or_equal:issue_date',
+            'notes' => 'nullable|string',
+            'status' => 'nullable',
+            'items' => 'nullable|array|min:1',
+            'items.*.product_id' => 'nullable|exists:products,id',
+            'items.*.quantity' => 'nullable|integer|min:1',
+            'items.*.unit_price' => 'nullable|numeric',
+            'items.*.description' => 'nullable|string|max:255',
         ];
     }
 }
