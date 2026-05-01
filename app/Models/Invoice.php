@@ -2,27 +2,29 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property int $user_id
  * @property int $customer_id
  * @property string $invoice_number
- * @property \Illuminate\Support\Carbon $issue_date
- * @property \Illuminate\Support\Carbon $due_date
+ * @property Carbon $issue_date
+ * @property Carbon $due_date
  * @property string $status
  * @property string|null $notes
  * @property numeric $total_amount
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Customer $customer
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceItem> $items
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Customer $customer
+ * @property-read Collection<int, InvoiceItem> $items
  * @property-read int|null $items_count
- * @property-read \App\Models\User $user
+ * @property-read User $user
  * @method static \Database\Factories\InvoiceFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newQuery()
