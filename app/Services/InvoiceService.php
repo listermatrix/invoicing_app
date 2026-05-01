@@ -129,6 +129,9 @@ class InvoiceService
         }
     }
 
+    /**
+     * @throws ValidationException
+     */
     private function syncItems(Invoice $invoice, array $items, bool $deductStock = false): void
     {
         foreach ($items as $itemData) {
