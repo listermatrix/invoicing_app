@@ -12,7 +12,7 @@ class CustomerPolicy
      */
 
 
-    public function update(User $user, Customer $invoice): bool
+    public function update(User $user, Customer $customer): bool
     {
         return $user->isAdmin();
     }
